@@ -1,0 +1,41 @@
+{% extends "bases/navbar.html" %}
+
+{% block 'conteudo' %}
+    <br><br><br>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <br><br>
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert {{ message.tags }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+                <img width="100" src="{{evento.logo.url}}">
+                <br><br>
+                <h3>{{evento.nome}}</h3>
+            </div>
+            <hr>
+
+            <div class="col-md-6">
+                <h5>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatem, nisi similique ipsum, veritatis esse fugit maiores iste, iusto libero facere praesentium rerum et vel odit ipsa nam sit quia laborum.
+                Tempora ipsum quas autem corrupti consequatur tenetur temporibus praesentium nihil ipsa. Itaque incidunt officiis totam veniam. At quod quidem velit reiciendis itaque obcaecati possimus quae blanditiis illum, enim cupiditate inventore.
+                Ut iste sed porro provident animi quos nulla corrupti vero qui? Placeat optio pariatur earum officia, atque quaerat consectetur repellat, maiores molestias voluptatum necessitatibus odit tenetur in harum. Quas, cum!
+                </h5>
+                <br>
+                <p>{{evento.data_inicio}} a {{evento.data_termino}}</p>
+                <br>
+
+                {% if request.user in evento.participantes.all %}
+                    <input style="border-color: green;" type="submit" class="btn-principal" value="JÁ ESTÁ PARTICIPANDO" disabled>
+                {% else %}
+                    <form action="{% url 'inscrever_evento' evento.id %}" method="POST">{% csrf_token %}
+                        <input type="submit" class="btn-principal" value="QUERO PARTICIPAR">
+                    </form>
+                {% endif %}
+                
+            </div>
+        </div>
+    </div>
+{% endblock 'conteudo' %}
