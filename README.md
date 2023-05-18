@@ -1,2 +1,2 @@
 # Django-estudos
- Estudos na prática sobre o Djando Framework
+ Estudos na prática sobre o Framework Django.
