@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %}Todas as suas Tarefas{% endblock title %}
+
+{% block content %}
+    <div class="h-100 p-5 bg-light border rounded-3">
+        <h1>Tarefas:</h1>
+        <br>
+        <div class="list-group">
+            {% for tarefa in todas_tarefas %}
+                {% if tarefa.status == 'pendente' %}
+                    <button type="button" class="list-group-item list-group-item-danger list-group-item-action " data-bs-toggle="modal" data-bs-target="#modal{{ tarefa.id }}">
+                {% elif tarefa.status == 'adiado' %}
+                    <button type="button" class="list-group-item list-group-item-warning list-group-item-action " data-bs-toggle="modal" data-bs-target="#modal{{ tarefa.id }}">
+                {% else %}
+                    <button type="button" class="list-group-item list-group-item-success list-group-item-action " data-bs-toggle="modal" data-bs-target="#modal{{ tarefa.id }}">
+                {% endif %}
+                    <h5>{{ tarefa.descricao|title }} - {{ tarefa.status|title }}</h5>
+                    <small>Criado em: {{ tarefa.data_criacao.day }}/{{ tarefa.data_criacao.month }}/{{ tarefa.data_criacao.year }}</small>
+                </button>
+            {% empty %}
+                <br>
+                <h4>Você não tem nenhuma tarefa no momento.</h4>
+            {% endfor %}
+        </div>
+    </div>
+
+    </div>
+{% endblock content %}

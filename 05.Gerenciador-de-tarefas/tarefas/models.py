@@ -13,7 +13,11 @@ class Tarefa(models.Model):
         ('adiado', 'Adiado'),
     )
 
-    descricao = models.TextField(max_length=400)
+    descricao = models.CharField(max_length=400)
     data_criacao = models.DateTimeField(auto_now_add=True)
     categoria = models.CharField(max_length=30, choices=OPCOES_CATEGORIA, default='importante')
     status = models.CharField(max_length=30, choices=OPCOES_STATUS, default='pendente')
+
+
+    def __str__(self) -> str:
+        return self.descricao
