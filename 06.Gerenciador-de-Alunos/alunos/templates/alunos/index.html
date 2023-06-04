@@ -1,0 +1,115 @@
+{% extends 'alunos/base.html' %}
+
+{% block content %}
+<h3 class="m-4">Todos os alunos:</h3> <br>
+    
+<div class="row">
+    <div class="col-12">
+      {% if alunos %}
+        <div class="card bg-secondary mb-3 me-4 mb-4">
+          <div class="card-header"><i class="fa-solid fa-list fa-lg"></i> Alunos cadastrados </div>
+          <div class="card-body">
+            <p class="card-text">
+              <div class="table table-responsive">
+                <table class="table table-hover">
+                  <thead>
+                    <tr class="table-dark">
+                      <th scope="col">Matrícula do Aluno</th>
+                      <th scope="col">Nome</th>
+                      <th scope="col">Sobrenome</th>
+                      <th scope="col">E-mail</th>
+                      <th scope="col">Matéria</th>
+                      <th scope="col">Média</th>
+                      <th scope="col">Ações</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for aluno in alunos %}
+                      <tr>
+                        <td>{{ aluno.matricula }}</td>
+                        <td>{{ aluno.nome }}</td>
+                        <td>{{ aluno.sobrenome }}</td>
+                        <td>{{ aluno.email }}</td>
+                        <td>{{ aluno.materia }}</td>
+                        <td>{{ aluno.media_nota }}</td>
+                        <td>
+                          <button type="button" class="btn btn-success me-1" href="{% url 'visualizar_aluno' aluno.id %}" data-bs-toggle="modal" data-bs-target="#myModal{{aluno.id}}">
+                            <i class="fa-solid fa-circle-info fa-lg"></i>
+                          </button>
+
+                          <!-- Modal - Visualizar Aluno -->
+                          <div class="modal" id="myModal{{aluno.id}}" tabindex="-1" aria-labelledby="myModalLabell" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5 class="modal-title">Aluno: {{aluno.nome}} {{aluno.sobrenome}}</h5>
+                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar">
+                                    <span aria-hidden="true"></span>
+                                  </button>
+                                </div>
+                                <div class="modal-body">
+                                  <ul class="list-unstyled">
+                                    <li>Matrícula: <strong>{{aluno.matricula}}</strong></li>
+                                    <li>Nome: <strong>{{aluno.nome}}</strong></li>
+                                    <li>Sobrenome: <strong>{{aluno.sobrenome}}</strong></li>
+                                    <li>E-mail: <strong>{{aluno.email}}</strong></li>
+                                    <li>Matéria: <strong>{{aluno.materia}}</strong></li>
+                                    <li>Média: <strong>{{aluno.media_nota}}</strong></li>
+                                  </ul>
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Fechar</button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <a href="{% url 'editar_aluno' aluno.id %}" class="btn btn-warning me-1">
+                            <i class="fa-solid fa-pen-to-square fa-lg"></i>
+                          </a>
+
+                          <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete{{aluno.id}}">
+                            <i class="fa-solid fa-trash-can fa-lg"></i>
+                          </button>
+
+                           <!-- Modal - Visualizar Aluno -->
+                           <div class="modal" id="delete{{aluno.id}}" tabindex="-1" aria-labelledby="myModalLabell2" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5 class="modal-title">Aluno: {{aluno.nome}} {{aluno.sobrenome}}</h5>
+                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar">
+                                    <span aria-hidden="true"></span>
+                                  </button>
+                                </div>
+                                <div class="modal-body">
+                                  <ul class="list-unstyled">
+                                    <p>Deseja deletar esse aluno?</p>
+                                  </ul>
+                                </div>
+                                <div class="modal-footer">
+                                  <form action="{% url 'deletar_aluno' aluno.id %}" method="POST">{% csrf_token %}
+                                    <input type="submit" class="btn btn-primary" value="Deletar">
+                                  </form>
+                                  <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancelar</button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                        </td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </p>
+          </div>
+        </div>
+      {% else %}
+        <h1 class="alert alert-primary ms-4 me-4">Nenhum aluno cadastrado.</h1>
+      {% endif %}
+        
+    </div>
+</div>
+{% endblock content %}
